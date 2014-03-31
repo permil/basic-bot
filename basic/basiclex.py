@@ -4,7 +4,8 @@ from ply import *
 
 keywords = (
     'LET','READ','DATA','PRINT','GOTO','IF','THEN','FOR','NEXT','TO','STEP',
-    'END','STOP','DEF','GOSUB','DIM','REM','RETURN','RUN','LIST','NEW'
+    'END','STOP','DEF','GOSUB','DIM','REM','RETURN','RUN','LIST','NEW',
+    'RENUM'
 )
 
 tokens = keywords + (

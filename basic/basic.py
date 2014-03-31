@@ -48,7 +48,7 @@ while 1:
     if keys[0] > 0:
         b.add_statements(prog)
     else:
-         stat = prog[keys[0]]
+        stat = prog[keys[0]]
         if stat[0] == 'RUN':
             try:
                 b.run()
@@ -60,12 +60,5 @@ while 1:
             b.del_line(stat[1])
         elif stat[0] == 'NEW':
             b.new()
-
-
-
-
-
-
-
-
-
+        elif stat[0] == 'RENUM':
+            b.renum()

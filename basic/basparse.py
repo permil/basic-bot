@@ -39,7 +39,7 @@ def p_program_error(p):
     p[0] = None
     p.parser.error = 1
 
-#### Format of all BASIC statements. 
+#### Format of all BASIC statements.
 
 def p_statement(p):
     '''statement : INTEGER command NEWLINE'''
@@ -56,7 +56,8 @@ def p_statement(p):
 def p_statement_interactive(p):
     '''statement : RUN NEWLINE
                  | LIST NEWLINE
-                 | NEW NEWLINE'''
+                 | NEW NEWLINE
+                 | RENUM NEWLINE'''
     p[0] = (0, (p[1],0))
 
 #### Blank line number
@@ -121,7 +122,7 @@ def p_command_print_bad(p):
 #### Optional ending on PRINT. Either a comma (,) or semicolon (;)
 
 def p_optend(p):
-    '''optend : COMMA 
+    '''optend : COMMA
               | SEMI
               |'''
     if len(p)  == 2:
@@ -188,7 +189,7 @@ def p_optstep(p):
        p[0] = None
 
 #### NEXT statement
-    
+
 def p_command_next(p):
     '''command : NEXT ID'''
 
@@ -392,7 +393,7 @@ def p_item_expr(p):
     p[0] = ("",p[1])
 
 #### Empty
-   
+
 def p_empty(p):
     '''empty : '''
 
@@ -412,10 +413,10 @@ def parse(data,debug=0):
 
 
 
-       
-   
-  
-            
+
+
+
+
 
 
 
