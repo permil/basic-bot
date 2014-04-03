@@ -420,7 +420,7 @@ class BasicInterpreter:
                    for v in instr[1]:
                         if not first: _out += ","
                         first = 0
-                        _out += v
+                        _out += str(v)
                    print(_out)
 
     # Erase the current program
