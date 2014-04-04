@@ -61,4 +61,4 @@ while 1:
         elif stat[0] == 'NEW':
             b.new()
         elif stat[0] == 'RENUM':
-            b.renum()
+            b.renum(stat[1])

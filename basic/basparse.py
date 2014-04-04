@@ -56,9 +56,29 @@ def p_statement(p):
 def p_statement_interactive(p):
     '''statement : RUN NEWLINE
                  | LIST NEWLINE
-                 | NEW NEWLINE
-                 | RENUM NEWLINE'''
+                 | NEW NEWLINE'''
     p[0] = (0, (p[1],0))
+
+def p_statement_renum(p):
+    '''statement : RENUM optintlist NEWLINE'''
+    p[0] = (0, (p[1], p[2]))
+
+def p_optintlist(p):
+    '''optintlist : optintlist COMMA optinteger
+                  | optinteger'''
+    if len(p) > 2:
+        p[0] = p[1]
+        p[0].append(p[3])
+    else:
+        p[0] = [p[1]]
+
+def p_optinteger(p):
+    '''optinteger : INTEGER
+                  |'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = None
 
 #### Blank line number
 def p_statement_blank(p):

@@ -441,7 +441,10 @@ class BasicInterpreter:
          except KeyError:
              pass
 
-    def renum(self):
+    def renum(self,args):
+        new_number = int(args[0]) if (len(args)>0 and args[0]) else 10
+        old_number = int(args[1]) if (len(args)>1 and args[1]) else 0
+        increment = int(args[2]) if (len(args)>2 and args[2]) else 10
         stat = list(self.prog)      # Ordered list of all line numbers
         stat.sort()
 
@@ -449,8 +452,11 @@ class BasicInterpreter:
         line_num_map = {}
         line_count = 0
         for line in stat:
-            line_count += 1
-            line_num_map[line] = line_count * 10
+            if line < old_number:
+                line_num_map[line] = line
+            else:
+                line_num_map[line] = new_number + line_count * increment
+                line_count += 1
 
         # GOTO,GOSUB,IFに含まれる行番号を修正
         for line in stat:

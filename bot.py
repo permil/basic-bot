@@ -94,7 +94,7 @@ class BotPy(SingleServerIRCBot):
                 elif stat[0] == 'NEW':
                     self.interpreter.new()
                 elif stat[0] == 'RENUM':
-                    self.interpreter.renum()
+                    self.interpreter.renum(stat[1])
             self.notice(self.msg_buffer)
             print >> sys.stderr, self.msg_buffer
         except Exception as e:
