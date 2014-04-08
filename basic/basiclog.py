@@ -63,7 +63,7 @@ while 1:
             except RuntimeError:
                 pass
         elif stat[0] == 'LIST':
-            b.list()
+            b.list(stat[1])
         elif stat[0] == 'BLANK':
             b.del_line(stat[1])
         elif stat[0] == 'NEW':

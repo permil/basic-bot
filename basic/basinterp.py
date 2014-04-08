@@ -360,9 +360,13 @@ class BasicInterpreter:
          return "%s(%s,%s)" % (varname, self.expr_str(dim1),self.expr_str(dim2))
 
     # Create a program listing
-    def list(self):
+    def list(self, args):
          stat = list(self.prog)      # Ordered list of all line numbers
          stat.sort()
+         start_number = int(args[0]) if (len(args)>0 and args[0]) else 0
+         end_number   = int(args[1]) if (len(args)>1 and args[1]) else sys.maxint
+         stat = [x for x in stat if start_number<=x<=end_number]
+
          for line in stat:
              instr = self.prog[line]
              op = instr[0]

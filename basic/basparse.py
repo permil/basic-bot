@@ -55,13 +55,26 @@ def p_statement(p):
 
 def p_statement_interactive(p):
     '''statement : RUN NEWLINE
-                 | LIST NEWLINE
                  | NEW NEWLINE'''
     p[0] = (0, (p[1],0))
 
+def p_statement_list(p):
+    '''statement : LIST NEWLINE
+                 | LIST INTEGER NEWLINE
+                 | LIST MINUS INTEGER NEWLINE
+                 | LIST INTEGER MINUS optinteger NEWLINE'''
+    if len(p) == 3:
+        p[0] = (0, ('LIST', (None, None)))
+    elif len(p) == 4:
+        p[0] = (0, ('LIST', (p[2], p[2])))
+    elif len(p) == 5:
+        p[0] = (0, ('LIST', (None, p[3])))
+    else:
+        p[0] = (0, ('LIST', (p[2], p[4])))
+
 def p_statement_renum(p):
     '''statement : RENUM optintlist NEWLINE'''
-    p[0] = (0, (p[1], p[2]))
+    p[0] = (0, ('RENUM', p[2]))
 
 def p_optintlist(p):
     '''optintlist : optintlist COMMA optinteger

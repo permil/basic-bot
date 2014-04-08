@@ -88,7 +88,7 @@ class BotPy(SingleServerIRCBot):
                     except RuntimeError:
                         pass
                 elif stat[0] == 'LIST':
-                    self.interpreter.list()
+                    self.interpreter.list(stat[1])
                 elif stat[0] == 'BLANK':
                     self.interpreter.del_line(stat[1])
                 elif stat[0] == 'NEW':
