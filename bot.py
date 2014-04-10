@@ -102,8 +102,9 @@ class BotPy(SingleServerIRCBot):
                     self.interpreter.save(stat[1])
                 elif stat[0] == 'LOAD':
                     self.interpreter.load(stat[1], stat[2])
-            self.notice(self.msg_buffer)
-            print >> sys.stderr, self.msg_buffer
+            if self.msg_buffer:
+                self.notice(self.msg_buffer.replace('\n', '\r\nNOTICE ' + self.channel + ' :').encode("utf-8"))
+                print >> sys.stderr, self.msg_buffer
         except Exception as e:
             print >> sys.stderr, "Unexpected error:", e.message
         finally:
@@ -133,7 +134,7 @@ class BotPy(SingleServerIRCBot):
         self.connection.notice( self.channel, unicode(str, "utf8").encode("iso-2022-jp", "ignore") )
 
     def write(self, str):
-        self.msg_buffer = self.msg_buffer + str.rstrip('\r\n') + ' '
+        self.msg_buffer += str
 
 bot = BotPy()
 bot.start()

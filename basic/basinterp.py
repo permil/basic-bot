@@ -238,7 +238,7 @@ class BasicInterpreter:
                  if not (end == ',' or end == ';'):
                      sys.stdout.write("\n")
                  if end == ',': sys.stdout.write(" "*(15-(len(out) % 15)))
-                 if end == ';': sys.stdout.write(" "*(3-(len(out) % 3)))
+                 #if end == ';': sys.stdout.write(" "*(3-(len(out) % 3)))
 
             # LET statement
             elif op == 'LET':
