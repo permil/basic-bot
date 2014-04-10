@@ -3,3 +3,6 @@ server = irc.hoge.jp
 port = 6667
 channel = #hoge
 nick = hoge
+
+[basic]
+src_dir = basic-src/

@@ -62,3 +62,7 @@ while 1:
             b.new()
         elif stat[0] == 'RENUM':
             b.renum(stat[1])
+        elif stat[0] == 'SAVE':
+            b.save(stat[1])
+        elif stat[0] == 'LOAD':
+            b.load(stat[1], stat[2])

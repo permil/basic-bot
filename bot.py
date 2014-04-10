@@ -4,6 +4,7 @@ import sys
 sys.path.insert(0,"lib")
 sys.path.insert(0,"basic")
 
+import os
 import datetime
 import re
 import ConfigParser
@@ -18,11 +19,13 @@ class BotPy(SingleServerIRCBot):
 
     """ initializer """
     def __init__(self):
-        self.interpreter = basinterp.BasicInterpreter({})
-        self.user_list = []
-
         config = ConfigParser.SafeConfigParser()
         config.read("./config.ini")
+
+        self.interpreter = basinterp.BasicInterpreter({})
+        self.user_list = []
+        src_dir = os.path.join(os.path.dirname(__file__), unicode(config.get("basic", "src_dir")))
+        self.interpreter.set_src_dir(src_dir) # default
 
         server = unicode(config.get("irc", "server"))
         port = int(config.get("irc", "port"))
@@ -95,6 +98,10 @@ class BotPy(SingleServerIRCBot):
                     self.interpreter.new()
                 elif stat[0] == 'RENUM':
                     self.interpreter.renum(stat[1])
+                elif stat[0] == 'SAVE':
+                    self.interpreter.save(stat[1])
+                elif stat[0] == 'LOAD':
+                    self.interpreter.load(stat[1], stat[2])
             self.notice(self.msg_buffer)
             print >> sys.stderr, self.msg_buffer
         except Exception as e:

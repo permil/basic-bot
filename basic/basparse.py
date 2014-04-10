@@ -58,6 +58,18 @@ def p_statement_interactive(p):
                  | NEW NEWLINE'''
     p[0] = (0, (p[1],0))
 
+def p_statement_save(p):
+    '''statement : SAVE STRING NEWLINE'''
+    filename = p[2][1:-1]
+    p[0] = (0, ('SAVE', filename))
+
+def p_statement_load(p):
+    '''statement : LOAD STRING NEWLINE
+                 | LOAD STRING COMMA ID NEWLINE'''
+    filename = p[2][1:-1]
+    option = p[4] if len(p) == 6 else None
+    p[0] = (0, ('LOAD', filename, option))
+
 def p_statement_list(p):
     '''statement : LIST NEWLINE
                  | LIST INTEGER NEWLINE

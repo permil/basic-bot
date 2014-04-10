@@ -4,8 +4,11 @@
 # Assumes the program has been parsed using basparse.py
 
 import sys
+import os
 import math
 import random
+
+import basparse
 
 class BasicInterpreter:
 
@@ -13,6 +16,7 @@ class BasicInterpreter:
     # containing (line,statement) mappings
     def __init__(self,prog):
          self.prog = prog
+         self.src_dir = os.path.join(os.path.dirname(__file__), 'sample/') # default
 
          self.functions = {           # Built-in function table
              'SIN' : lambda z: math.sin(self.eval(z)),
@@ -26,6 +30,9 @@ class BasicInterpreter:
              'INT' : lambda z: int(self.eval(z)),
              'RND' : lambda z: random.random()
          }
+
+    def set_src_dir(self,src_dir):
+         self.src_dir = src_dir
 
     # Collect all data statements
     def collect_data(self):
@@ -360,7 +367,7 @@ class BasicInterpreter:
          return "%s(%s,%s)" % (varname, self.expr_str(dim1),self.expr_str(dim2))
 
     # Create a program listing
-    def list(self, args):
+    def list(self, args=()):
          stat = list(self.prog)      # Ordered list of all line numbers
          stat.sort()
          start_number = int(args[0]) if (len(args)>0 and args[0]) else 0
@@ -484,3 +491,45 @@ class BasicInterpreter:
         for line in stat:
             new_prog[line_num_map[line]] = self.prog[line]
         self.prog = new_prog
+
+    def save(self, filename):
+        relative_path = self._normalize_file_path(filename)
+        if not relative_path:
+            print('ILLEGAL FILE NAME: \"%s\"' % filename)
+            return
+
+        stdout_bak = sys.stdout
+        sys.stdout = open(relative_path, 'w')
+        self.list()
+        sys.stdout = stdout_bak
+
+        print("FILE SAVED: \"%s\"" % filename)
+
+    def load(self, filename, option):
+        relative_path = self._normalize_file_path(filename)
+        if not relative_path:
+            print('ILLEGAL FILE NAME: \"%s\"' % filename)
+            return
+
+        if not os.path.exists(relative_path):
+            print('NO SUCH FILE: \"%s\"' % filename)
+            return
+
+        data = open(relative_path).read()
+        self.prog = basparse.parse(data)
+
+        print("FILE LOADED: \"%s\"" % filename)
+
+        if option and (option.upper() == 'R'):
+            print("  AND RUN...")
+            self.run()
+
+    def _normalize_file_path(self, filename):
+        filename = filename.upper()
+        if os.path.splitext(filename)[1] == '':
+            filename += '.BAS'
+
+        relative_path = os.path.join(self.src_dir, filename)
+        if os.path.dirname(relative_path) != os.path.dirname(self.src_dir):
+            return None
+        return relative_path
